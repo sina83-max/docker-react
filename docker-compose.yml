@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      # Where we want all files and folders for this image to be pulled from
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - /app/node_modules
+      # Do not try to map a folder up against this folder
+      - .:/app
+      # outside container: app folder inside the container
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
